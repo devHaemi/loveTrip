@@ -11,7 +11,7 @@ import { differenceInMilliseconds, parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-function Hotel({ hotel }: { hotel: IHotel }) {
+function HotelItem({ hotel }: { hotel: IHotel }) {
   const [remainedTime, setRemainedTime] = useState(0)
 
   useEffect(() => {
@@ -106,4 +106,4 @@ const imageStyles = css`
   margin-left: 16px;
 `
 
-export default Hotel
+export default HotelItem
