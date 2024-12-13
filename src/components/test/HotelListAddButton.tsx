@@ -1,11 +1,10 @@
-import { store } from '@/remote/firebase'
-import { collection, doc, writeBatch } from 'firebase/firestore'
+import { doc, collection, writeBatch } from 'firebase/firestore'
 
-import { COLLECTIONS } from '@/constants'
-import { EVENTS, HOTEL, HOTEL_NAMES, IMAGES, ROOMS } from '@/mock/data'
-import Button from '@/components/shared/Button'
+import { store } from '@remote/firebase'
+import Button from '@shared/Button'
+import { HOTEL_NAMES, IMAGES, HOTEL, EVENTS, ROOMS } from '@/mock/data'
+import { COLLECTIONS } from '@constants'
 
-// min애서 max 사이 값을 가져오는 유틸함수
 function random(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
