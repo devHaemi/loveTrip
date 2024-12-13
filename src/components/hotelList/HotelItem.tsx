@@ -1,17 +1,18 @@
-import Flex from '@/components/shared/Flex'
-import ListRow from '@/components/shared/ListRow'
-import Spacing from '@/components/shared/Spacing'
-import Tag from '@/components/shared/Tag'
-import Text from '@/components/shared/Text'
-import { Hotel as IHotel } from '@/models/hotel'
-import addDelimiter from '@/utils/addDelimiter'
-import formatTime from '@/utils/formatTime'
 import { css } from '@emotion/react'
 import { differenceInMilliseconds, parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-function HotelItem({ hotel }: { hotel: IHotel }) {
+import Flex from '@/components/shared/Flex'
+import ListRow from '@/components/shared/ListRow'
+import Spacing from '@/components/shared/Spacing'
+import Tag from '@/components/shared/Tag'
+import Text from '@/components/shared/Text'
+import { Hotel } from '@/models/hotel'
+import addDelimiter from '@/utils/addDelimiter'
+import formatTime from '@/utils/formatTime'
+
+function HotelItem({ hotel }: { hotel: Hotel }) {
   const [remainedTime, setRemainedTime] = useState(0)
 
   useEffect(() => {
