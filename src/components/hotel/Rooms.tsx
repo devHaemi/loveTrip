@@ -11,7 +11,6 @@ import styled from '@emotion/styled'
 
 function Rooms({ hotelId }: { hotelId: string }) {
   const { data } = useRooms({ hotelId })
-  console.log(data)
 
   return (
     <Container>
