@@ -1,6 +1,8 @@
 import { store } from '@/remote/firebase'
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   limit,
   query,
@@ -36,4 +38,13 @@ export async function getHotels(pageParams?: QuerySnapshot<Hotel>) {
     items,
     lastVisible,
   }
+}
+
+export async function getHotel(id: string) {
+  const snapShot = await getDoc(doc(store, COLLECTIONS.HOTEL, id))
+
+  return {
+    id,
+    ...snapShot.data(),
+  } as Hotel
 }
