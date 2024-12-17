@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
-
-import { Global } from '@emotion/react'
-import globalStyles from '@/styles/globalStyles'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { RecoilRoot } from 'recoil'
+import { Global } from '@emotion/react'
+
+import reportWebVitals from './reportWebVitals'
+
+import globalStyles from '@/styles/globalStyles'
+import { AlertContextProvider } from '@/contexts/AlertContext'
+import App from './App'
 
 const client = new QueryClient({
   defaultOptions: {
@@ -22,7 +24,9 @@ root.render(
     <Global styles={globalStyles} />
     <RecoilRoot>
       <QueryClientProvider client={client}>
-        <App />
+        <AlertContextProvider>
+          <App />
+        </AlertContextProvider>
       </QueryClientProvider>
     </RecoilRoot>
   </React.StrictMode>,

@@ -1,26 +1,43 @@
-import { css } from '@emotion/react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-import Flex from '@/components/shared/Flex'
-import Spacing from '@/components/shared/Spacing'
-import Text from '@/components/shared/Text'
-import useShare from '@/hooks/useShare'
-import { Hotel } from '@/models/hotel'
+import { css } from '@emotion/react'
+import Flex from '@shared/Flex'
+import Spacing from '@shared/Spacing'
+import Text from '@shared/Text'
+
+import useShare from '@hooks/useShare'
+import { Hotel } from '@models/hotel'
+import useLike from '@hooks/like/useLike'
 
 function ActionButtons({ hotel }: { hotel: Hotel }) {
   const share = useShare()
+  const { data: likes, mutate: like } = useLike()
 
-  const { name, comment, mainImageUrl } = hotel
+  const { name, comment, mainImageUrl, id } = hotel
+
+  const isLike = Boolean(likes?.find((like) => like.hotelId === hotel.id))
 
   return (
     <Flex css={containerStyles}>
       <Button
         label="찜하기"
-        iconUrl="https://cdn4.iconfinder.com/data/icons/twitter-29/512/166_Heart_Love_Like_Twitter-64.png"
+        onClick={() => {
+          like({
+            hotel: {
+              name,
+              mainImageUrl,
+              id,
+            },
+          })
+        }}
+        iconUrl={
+          isLike
+            ? 'https://cdn4.iconfinder.com/data/icons/twitter-29/512/166_Heart_Love_Like_Twitter-64.png'
+            : 'https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-heart-outline-64.png'
+        }
       />
       <Button
         label="공유하기"
-        iconUrl="https://cdn1.iconfinder.com/data/icons/rounded-social-media/512/kakao-64.png"
         onClick={() => {
           share({
             title: name,
@@ -29,10 +46,13 @@ function ActionButtons({ hotel }: { hotel: Hotel }) {
             buttonLabel: 'Love Trip에서 보기',
           })
         }}
+        iconUrl="https://cdn1.iconfinder.com/data/icons/rounded-social-media/512/kakao-64.png"
       />
       <CopyToClipboard
         text={window.location.href}
-        onCopy={() => alert('링크가 복사되었습니다.')}
+        onCopy={() => {
+          alert('링크가 복사되었습니다.')
+        }}
       >
         <Button
           label="링크복사"
