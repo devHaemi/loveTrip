@@ -34,8 +34,6 @@ export async function getLikes({ userId }: { userId: string }) {
   )
 }
 
-// 이미 찜이되어있다면 -> 삭제
-// 찜 x -> 저장
 export async function toggleLike({
   hotel,
   userId,
