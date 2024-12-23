@@ -1,3 +1,8 @@
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
+import qs from 'qs'
+import { useNavigate } from 'react-router-dom'
+
 import useRooms from '@/components/hotel/hooks/useRooms'
 import Button from '@/components/shared/Button'
 import Flex from '@/components/shared/Flex'
@@ -6,11 +11,14 @@ import Spacing from '@/components/shared/Spacing'
 import Tag from '@/components/shared/Tag'
 import Text from '@/components/shared/Text'
 import addDelimiter from '@/utils/addDelimiter'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import useUser from '@/hooks/auth/useUser'
+import { useAlertContext } from '@/contexts/AlertContext'
 
 function Rooms({ hotelId }: { hotelId: string }) {
   const { data } = useRooms({ hotelId })
+  const user = useUser()
+  const { open } = useAlertContext()
+  const navigate = useNavigate()
 
   return (
     <Container>
@@ -26,6 +34,14 @@ function Rooms({ hotelId }: { hotelId: string }) {
         {data?.map((room) => {
           const almostSoldOut = room.availableCount === 1
           const soldOut = room.availableCount === 0
+
+          const params = qs.stringify(
+            {
+              roomId: room.id,
+              hotelId,
+            },
+            { addQueryPrefix: true },
+          )
 
           return (
             <ListRow
@@ -56,7 +72,24 @@ function Rooms({ hotelId }: { hotelId: string }) {
                 />
               }
               right={
-                <Button size="medium" disabled={soldOut}>
+                <Button
+                  size="medium"
+                  onClick={() => {
+                    if (user == null) {
+                      open({
+                        title: '로그인이 필요한 기능입니다.',
+                        onButtonClick: () => {
+                          navigate('/signin')
+                        },
+                      })
+
+                      return
+                    }
+
+                    navigate(`/schedule${params}`)
+                  }}
+                  disabled={soldOut}
+                >
                   {soldOut ? '매진' : '선택'}
                 </Button>
               }
