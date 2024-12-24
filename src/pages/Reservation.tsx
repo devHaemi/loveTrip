@@ -6,8 +6,10 @@ import useReservation from '@/components/reservation/hooks/useReservation'
 import Summary from '@/components/reservation/Summary'
 import Spacing from '@/components/shared/Spacing'
 import addDelimiter from '@/utils/addDelimiter'
+import useUser from '@/hooks/auth/useUser'
 
 function ReservationPage() {
+  const user = useUser()
   const { startDate, endDate, nights, roomId, hotelId } = parse(
     window.location.search,
     { ignoreQueryPrefix: true },
@@ -21,13 +23,13 @@ function ReservationPage() {
 
   useEffect(() => {
     if (
-      [startDate, endDate, nights, roomId, hotelId].some((param) => {
+      [user, startDate, endDate, nights, roomId, hotelId].some((param) => {
         return param == null
       })
     ) {
       window.history.back()
     }
-  }, [endDate, hotelId, nights, roomId, startDate])
+  }, [user, endDate, hotelId, nights, roomId, startDate])
 
   const { data, isLoading } = useReservation({ hotelId, roomId })
 
@@ -37,7 +39,19 @@ function ReservationPage() {
 
   const { hotel, room } = data
 
-  const handleSubmit = () => {}
+  const handleSubmit = (formValues: { [key: string]: string }) => {
+    const newReservation = {
+      userId: user?.uid as string,
+      hotelId,
+      roomId,
+      startDate,
+      endDate,
+      price: room.price * Number(nights),
+      formValues,
+    }
+
+    // TODO: 예약하기
+  }
 
   const buttonLabel = `${nights}박 ${addDelimiter(room.price * Number(nights))}원 예약하기`
 

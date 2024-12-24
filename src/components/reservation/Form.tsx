@@ -1,11 +1,16 @@
+import { Fragment, useCallback } from 'react'
+import { useForm } from 'react-hook-form'
+
 import FixedBottomButton from '@/components/shared/FixedBottomButton'
 import Select from '@/components/shared/Select'
 import Spacing from '@/components/shared/Spacing'
 import Text from '@/components/shared/Text'
 import TextField from '@/components/shared/TextField'
 import { Hotel, ReservationForm } from '@/models/hotel'
-import { Fragment, useCallback } from 'react'
-import { useForm } from 'react-hook-form'
+
+type FormData = {
+  [key: string]: string
+}
 
 function Form({
   forms,
@@ -13,10 +18,12 @@ function Form({
   buttonLabel,
 }: {
   forms: Hotel['forms']
-  onSubmit: () => void
+  onSubmit: (formValues: FormData) => void
   buttonLabel: string
 }) {
-  const { register, formState, handleSubmit } = useForm({ mode: 'onBlur' })
+  const { register, formState, handleSubmit } = useForm<FormData>({
+    mode: 'onBlur',
+  })
 
   const component = useCallback(
     (form: ReservationForm) => {
@@ -69,6 +76,7 @@ function Form({
           )
         })}
       </form>
+
       <Spacing size={80} />
 
       <FixedBottomButton label={buttonLabel} onClick={handleSubmit(onSubmit)} />
