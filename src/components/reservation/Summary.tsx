@@ -3,7 +3,6 @@ import Spacing from '@/components/shared/Spacing'
 import Text from '@/components/shared/Text'
 import { Room } from '@/models/room'
 import { css } from '@emotion/react'
-import { sq } from 'date-fns/locale'
 
 interface SummaryProps {
   hotelName: string
