@@ -20,8 +20,6 @@ function Summary({
   endDate,
   nights,
 }: SummaryProps) {
-  console.log(room.basicInfo)
-
   return (
     <div style={{ padding: 24 }}>
       <Text typography="t4" bold={true}>
