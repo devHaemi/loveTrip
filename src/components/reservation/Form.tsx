@@ -88,7 +88,7 @@ const VALIDATION_MESSAGE_MAP: {
     message: '휴대전화번호를 확인해주세요',
   },
   email: {
-    value: /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+    value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
     message: '이메일 형식을 확인해주세요',
   },
 }
