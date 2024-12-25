@@ -8,10 +8,10 @@ import {
   where,
   getDocs,
 } from 'firebase/firestore'
+
 import { COLLECTIONS } from '@constants'
 import { store } from './firebase'
 import { getHotel } from './hotel'
-
 import { Reservation } from '@models/reservation'
 import { Room } from '@models/room'
 
