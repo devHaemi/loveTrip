@@ -1,15 +1,18 @@
 import { parse } from 'qs'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import Form from '@/components/reservation/Form'
-import useReservation from '@/components/reservation/hooks/useReservation'
-import Summary from '@/components/reservation/Summary'
-import Spacing from '@/components/shared/Spacing'
-import addDelimiter from '@/utils/addDelimiter'
-import useUser from '@/hooks/auth/useUser'
+import useReservation from '@components/reservation/hooks/useReservation'
+import Summary from '@components/reservation/Summary'
+import Spacing from '@shared/Spacing'
+import Form from '@components/reservation/Form'
+import addDelimiter from '@utils/addDelimiter'
+import useUser from '@hooks/auth/useUser'
 
 function ReservationPage() {
   const user = useUser()
+  const navigate = useNavigate()
+
   const { startDate, endDate, nights, roomId, hotelId } = parse(
     window.location.search,
     { ignoreQueryPrefix: true },
@@ -29,9 +32,12 @@ function ReservationPage() {
     ) {
       window.history.back()
     }
-  }, [user, endDate, hotelId, nights, roomId, startDate])
+  }, [startDate, endDate, nights, roomId, hotelId, user])
 
-  const { data, isLoading } = useReservation({ hotelId, roomId })
+  const { data, isLoading, makeReservation } = useReservation({
+    hotelId,
+    roomId,
+  })
 
   if (data == null || isLoading === true) {
     return null
@@ -39,7 +45,7 @@ function ReservationPage() {
 
   const { hotel, room } = data
 
-  const handleSubmit = (formValues: { [key: string]: string }) => {
+  const handleSubmit = async (formValues: { [key: string]: string }) => {
     const newReservation = {
       userId: user?.uid as string,
       hotelId,
@@ -50,10 +56,14 @@ function ReservationPage() {
       formValues,
     }
 
-    // TODO: 예약하기
+    await makeReservation(newReservation)
+
+    navigate(`/reservation/done?hotelName=${hotel.name}`)
   }
 
-  const buttonLabel = `${nights}박 ${addDelimiter(room.price * Number(nights))}원 예약하기`
+  const buttonLabel = `${nights}박 ${addDelimiter(
+    room.price * Number(nights),
+  )}원 예약하기`
 
   return (
     <div>
@@ -64,10 +74,10 @@ function ReservationPage() {
         endDate={endDate}
         nights={nights}
       />
-      <Spacing size={4} backgroundColor="gray100" />
+      <Spacing size={8} backgroundColor="gray100" />
       <Form
-        forms={hotel.forms}
         onSubmit={handleSubmit}
+        forms={hotel.forms}
         buttonLabel={buttonLabel}
       />
     </div>
