@@ -7,7 +7,7 @@ import Spacing from '@/components/shared/Spacing'
 import Top from '@/components/shared/Top'
 import useLike from '@/hooks/like/useLike'
 
-function HotelList() {
+function HotelListPage() {
   const { hotels, hasNextPage, loadMore } = useHotels()
   const { data: likes, mutate: like } = useLike()
 
@@ -47,4 +47,4 @@ function HotelList() {
   )
 }
 
-export default HotelList
+export default HotelListPage

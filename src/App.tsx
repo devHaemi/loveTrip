@@ -7,8 +7,8 @@ import PrivateRoute from '@components/auth/PrivateRoute'
 import Navbar from '@shared/Navbar'
 import useLoadKakao from '@hooks/useLoadKakao'
 
-const Test = lazy(() => import('@pages/Test'))
-const HotelList = lazy(() => import('@pages/HotelList'))
+const TestPage = lazy(() => import('@pages/Test'))
+const HotelListPage = lazy(() => import('@pages/HotelList'))
 const HotelPage = lazy(() => import('@pages/Hotel'))
 const MyPage = lazy(() => import('@pages/My'))
 const SigninPage = lazy(() => import('@pages/Signin'))
@@ -29,7 +29,7 @@ function App() {
           <AuthGuard>
             <Navbar />
             <Routes>
-              <Route path="/" element={<HotelList />} />
+              <Route path="/" element={<HotelListPage />} />
               <Route path="/hotel/:id" element={<HotelPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route
@@ -88,7 +88,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              <Route path="/test" element={<Test />} />
+              <Route path="/test" element={<TestPage />} />
             </Routes>
           </AuthGuard>
         </BrowserRouter>
