@@ -13,6 +13,7 @@ import Text from '@/components/shared/Text'
 import addDelimiter from '@/utils/addDelimiter'
 import useUser from '@/hooks/auth/useUser'
 import { useAlertContext } from '@/contexts/AlertContext'
+import withSuspense from '@/components/shared/hocs/withSuspense'
 
 function Rooms({ hotelId }: { hotelId: string }) {
   const { data } = useRooms({ hotelId })
@@ -116,4 +117,6 @@ const Header = styled(Flex)`
   margin-bottom: 20px;
 `
 
-export default Rooms
+export default withSuspense(Rooms, {
+  fallback: <div>룸 불러오는중...</div>,
+})
