@@ -11,6 +11,7 @@ import Top from '@/components/shared/Top'
 import Review from '@/components/hotel/Review'
 import ScrollProgressBar from '@/components/shared/ScrollProgressBar'
 import { css } from '@emotion/react'
+import SEO from '@/components/shared/SEO'
 
 function HotelPage() {
   const { id } = useParams() as { id: string }
@@ -25,6 +26,7 @@ function HotelPage() {
 
   return (
     <div>
+      <SEO title={name} description={comment} image={images[0]} />
       <ScrollProgressBar style={scrollProgressBarStyles} />
       <Top title={name} subTitle={comment} />
       <Carousel images={images} />
