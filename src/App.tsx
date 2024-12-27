@@ -1,92 +1,96 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Test from '@/pages/Test'
-import HotelList from '@/pages/HotelList'
-import HotelPage from '@/pages/Hotel'
-import useLoadKakao from '@/hooks/useLoadKakao'
-import SigninPage from '@/pages/Signin'
-import MyPage from '@/pages/My'
-import AuthGuard from '@/components/auth/AuthGuard'
-import Navbar from '@/components/shared/Navbar'
-import SettingsPage from '@/pages/settings'
-import LikePage from '@/pages/settings/like'
-import PrivateRoute from '@/components/auth/PrivateRoute'
-import SchedulePage from '@/pages/Schedule'
-import ReservationPage from '@/pages/Reservation'
-import ReservationDonePage from '@/pages/ReservationDone'
-import ReservationListPage from '@/pages/ReservationList'
+import AuthGuard from '@components/auth/AuthGuard'
+import PrivateRoute from '@components/auth/PrivateRoute'
+import Navbar from '@shared/Navbar'
+import useLoadKakao from '@hooks/useLoadKakao'
+
+const Test = lazy(() => import('@pages/Test'))
+const HotelList = lazy(() => import('@pages/HotelList'))
+const HotelPage = lazy(() => import('@pages/Hotel'))
+const MyPage = lazy(() => import('@pages/My'))
+const SigninPage = lazy(() => import('@pages/Signin'))
+const SettingsPage = lazy(() => import('@pages/settings'))
+const LikePage = lazy(() => import('@pages/settings/like'))
+const SchedulePage = lazy(() => import('@pages/Schedule'))
+const ReservationPage = lazy(() => import('@pages/Reservation'))
+const ReservationDonePage = lazy(() => import('@pages/ReservationDone'))
+const ReservationListPage = lazy(() => import('@pages/ReservationList'))
 
 function App() {
   useLoadKakao()
 
   return (
-    <BrowserRouter>
-      <AuthGuard>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HotelList />} />
-          <Route path="/hotel/:id" element={<HotelPage />} />
-          <Route path="/signin" element={<SigninPage />} />
-          <Route
-            path="/my"
-            element={
-              <PrivateRoute>
-                <MyPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <PrivateRoute>
-                <SettingsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/settings/like"
-            element={
-              <PrivateRoute>
-                <LikePage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/schedule"
-            element={
-              <PrivateRoute>
-                <SchedulePage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/reservation"
-            element={
-              <PrivateRoute>
-                <ReservationPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/reservation/done"
-            element={
-              <PrivateRoute>
-                <ReservationDonePage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/reservation/list"
-            element={
-              <PrivateRoute>
-                <ReservationListPage />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/test" element={<Test />} />
-        </Routes>
-      </AuthGuard>
-    </BrowserRouter>
+    <Suspense fallback={<></>}>
+      <BrowserRouter>
+        <AuthGuard>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HotelList />} />
+            <Route path="/hotel/:id" element={<HotelPage />} />
+            <Route path="/signin" element={<SigninPage />} />
+            <Route
+              path="/my"
+              element={
+                <PrivateRoute>
+                  <MyPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <SettingsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings/like"
+              element={
+                <PrivateRoute>
+                  <LikePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/schedule"
+              element={
+                <PrivateRoute>
+                  <SchedulePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/reservation"
+              element={
+                <PrivateRoute>
+                  <ReservationPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/reservation/done"
+              element={
+                <PrivateRoute>
+                  <ReservationDonePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/reservation/list"
+              element={
+                <PrivateRoute>
+                  <ReservationListPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/test" element={<Test />} />
+          </Routes>
+        </AuthGuard>
+      </BrowserRouter>
+    </Suspense>
   )
 }
 
